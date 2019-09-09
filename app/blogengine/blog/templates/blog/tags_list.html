@@ -9,12 +9,12 @@
 
 {% block content %}     
 
-    <h1 class="mb-5">
-        Post with "{{tag.title | title}}" tag:
-    </h1>
+    <h2 class="mb-5">
+       Tags:
+    </h2>
 
-    {% for post in tag.posts.all %}
-        {{post}}
+    {% for tag in tags %}
+        <h3><a href="{{ tag.get_absolute_url }}">{{ tag.title }}</a></h3>        
     {% endfor %}
 
 {% endblock %}
