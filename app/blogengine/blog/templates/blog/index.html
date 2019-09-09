@@ -8,7 +8,13 @@
 </head>
 <body>
     <h3>Post list</h3>
-    <h4>{{ name }}</h4>
+    <h4>{{ names }}</h4>
+    
+    {% for name in names %}
+
+    <p>{{ name }}</p>
+
+    {% endfor %}
     
 </body>
 </html>
