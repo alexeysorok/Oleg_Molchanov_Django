@@ -1,8 +1,8 @@
-{% extends 'blog/baseblog.html' %}
+{% extends 'blog/base_blog.html' %}
 
 {% block title %}
 
-    Tags list - {{block.super}}
+    {{tag.title}} - {{block.super}}
 
 {% endblock %}
 
@@ -10,11 +10,11 @@
 {% block content %}     
 
     <h1 class="mb-5">
-        Tags:
+        Post with "{{tag.title | title}}" tag:
     </h1>
 
-    {% for tag in tags %}
-        {{tag.title}}
+    {% for post in tag.posts.all %}
+        {{post}}
     {% endfor %}
 
 {% endblock %}
