@@ -9,12 +9,14 @@
 
 {% block content %}     
 
-    <h1 class="mt-5">
-        {{post.title}}
+    <h2 class="mb-5">
+        Post with "{{ tag.title|title }} tag:"
     </h1>
 
-    <p>
-        {{post.body}}
-    </p>
+    {% for post in tag.posts.all %}
+
+        {% include 'blog/includes/post_card_template.html' %}
+        
+    {% endfor %}
 
 {% endblock %}
