@@ -34,7 +34,7 @@ class TagForm(forms.ModelForm): # ModelForm позволяет сделаеть 
 
         if new_slug == 'create':
             raise ValidationError('Slug may not be "Create')
-        if Tag.objects.Filter(slug__iexact=new_slug).count():
+        if Tag.objects.filter(slug__iexact=new_slug).count():
             raise ValidationError(
                 'Slug mast be unique. We have "{}" slug already'.format(new_slug))
         return new_slug
