@@ -29,6 +29,9 @@ class Post(models.Model):
         if not self.id:
             self.slug = gen_slug(self.title)
         super().save(*args, **kwargs)
+    
+    def update_url(self):
+        return reverse('tag_update_url', kwargs={'slug': self.slug})
 
 
 class Tag(models.Model):
@@ -40,4 +43,9 @@ class Tag(models.Model):
 
     def get_absolute_url(self):
         return reverse("tag_detail_url", kwargs={"slug": self.slug})
+
+    def update_url(self):
+        return reverse('tag_update_url', kwargs={'slug': self.slug})
+
+    
     
