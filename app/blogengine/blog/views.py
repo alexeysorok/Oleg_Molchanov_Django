@@ -73,6 +73,15 @@ class TagCreate(ObjectCreateMixin, View):
      model_form = TagForm
      template = 'blog/tag_create.html'
 
+class TagUpdate(View):
+    def get(self, request, slug):
+        tag = Tag.objects.get(slug__iexact=slug)
+        bounf_form = TagForm(instance=tag)
+        return render(request, 'blog/tag_update_form.html',
+        context={'form':bounf_form, 'tag': tag})
+
+
+
 
 class PostCreate(ObjectCreateMixin, View):
     model_form = PostForm
