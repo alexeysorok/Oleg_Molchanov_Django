@@ -4,6 +4,7 @@ from .forms import *
 from django.views.generic import View
 
 from .utils import ObjectDetailMixin
+from django.utils.text import slugify
 
 
 def post_list(request):
@@ -21,7 +22,8 @@ def tags_list(request):
                   context={'tags': tags})
 
 
-class PostDetail(ObjectDetailMixin, View): # Post.mro() - покажет очереность поиска аотрибутов, важно в порядке использования наследования в классе
+# Post.mro() - покажет очереность поиска аотрибутов, важно в порядке использования наследования в классе
+class PostDetail(ObjectDetailMixin, View):
     model = Post
     template = 'blog/post_detail.html'
     # def get(self, request, slug):
@@ -58,7 +60,7 @@ class TagCreate(View):
     def get(self, request):
         form = TagForm()
         return render(request, 'blog/tag_create.html',
-        context={'form': form})
+                      context={'form': form})
 
     def post(self, request):
         bound_form = TagForm(request.POST)
@@ -67,20 +69,19 @@ class TagCreate(View):
             new_tag = bound_form.save()
             return redirect(new_tag)
         return render(request, 'blog/tag_create.html',
-            context={'form': bound_form} )
+                      context={'form': bound_form})
+
 
 class PostCreate(View):
     def get(self, request):
         form = PostForm()
         return render(request, 'blog/post_create.html',
-        context={'form': form})
-    
+                      context={'form': form})
+
     def post(self, request):
         bound_form = PostForm(request.POST)
         if bound_form.is_valid():
             new_post = bound_form.save()
             return redirect(new_post)
         return render(request, 'blog/post_create.html',
-        context={'form': bound_form} )
-
-    
+                      context={'form': bound_form})
