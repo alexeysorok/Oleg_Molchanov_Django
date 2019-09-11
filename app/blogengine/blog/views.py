@@ -22,6 +22,23 @@ def tags_list(request):
     return render(request, 'blog/tags_list.html',
                   context={'tags': tags})
 
+class PostCreate(ObjectCreateMixin, View):
+    model_form = PostForm
+    template = 'blog/post_create.html'
+    # def get(self, request):
+    #     form = PostForm()
+    #     return render(request, 'blog/post_create.html',
+    #                   context={'form': form})
+
+    # def post(self, request):
+    #     bound_form = PostForm(request.POST)
+    #     if bound_form.is_valid():
+    #         new_post = bound_form.save()
+    #         return redirect(new_post)
+    #     return render(request, 'blog/post_create.html',
+    #                   context={'form': bound_form})
+
+
 
 # Post.mro() - покажет очереность поиска аотрибутов, важно в порядке использования наследования в классе
 class PostDetail(ObjectDetailMixin, View):
@@ -37,6 +54,13 @@ class PostUpdate(ObjectUpdateMixin, View):
     model = Post
     model_form = PostForm
     template = 'blog/post_update_form.html'
+
+
+class PostDelete(ObjectDeleteMixin, View):
+    model = Post
+    template = 'blog/post_delete_form.html'
+    redirect_url = 'posts_list_url'
+
 
 
 
@@ -103,35 +127,23 @@ class TagUpdate(ObjectUpdateMixin, View):
     #     context={'form':bound_form, 'tag': tag})
 
 
-class TagDelete(View):
-    def get(self, request, slug):
-        tag = Tag.objects.get(slug__iexact=slug)
-        return render(request, 'blog/tag_delete_form.html', 
-            context={'tag': tag})
+class TagDelete(ObjectDeleteMixin, View):
+    model = Tag
+    template = 'blog/tag_delete_form.html'
+    redirect_url = 'tags_list_url'
+    # def get(self, request, slug):
+    #     tag = Tag.objects.get(slug__iexact=slug)
+    #     return render(request, 'blog/tag_delete_form.html', 
+    #         context={'tag': tag})
 
-    def post(self, request, slug):
-        tag = Tag.objects.get(slug__iexact=slug)
-        tag.delete()
-        return redirect(reverse('tags_list_url'))
+    # def post(self, request, slug):
+    #     tag = Tag.objects.get(slug__iexact=slug)
+    #     tag.delete()
+    #     return redirect(reverse('tags_list_url'))
 
 
 
 
 
-class PostCreate(ObjectCreateMixin, View):
-    model_form = PostForm
-    template = 'blog/post_create.html'
-    # def get(self, request):
-    #     form = PostForm()
-    #     return render(request, 'blog/post_create.html',
-    #                   context={'form': form})
-
-    # def post(self, request):
-    #     bound_form = PostForm(request.POST)
-    #     if bound_form.is_valid():
-    #         new_post = bound_form.save()
-    #         return redirect(new_post)
-    #     return render(request, 'blog/post_create.html',
-    #                   context={'form': bound_form})
 
 
