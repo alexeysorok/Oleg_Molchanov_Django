@@ -31,7 +31,7 @@ class Post(models.Model):
         super().save(*args, **kwargs)
     
     def update_url(self):
-        return reverse('tag_update_url', kwargs={'slug': self.slug})
+        return reverse('post_update_url', kwargs={'slug': self.slug})
 
 
 class Tag(models.Model):
