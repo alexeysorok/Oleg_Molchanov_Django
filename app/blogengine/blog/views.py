@@ -6,6 +6,8 @@ from django.views.generic import View
 
 from .utils import *
 from django.utils.text import slugify
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 
 def post_list(request):
@@ -22,9 +24,10 @@ def tags_list(request):
     return render(request, 'blog/tags_list.html',
                   context={'tags': tags})
 
-class PostCreate(ObjectCreateMixin, View):
+class PostCreate(LoginRequiredMixin, ObjectCreateMixin, View):
     model_form = PostForm
     template = 'blog/post_create.html'
+    raise_exception = True
     # def get(self, request):
     #     form = PostForm()
     #     return render(request, 'blog/post_create.html',
@@ -50,16 +53,18 @@ class PostDetail(ObjectDetailMixin, View):
     #     return render(request, 'blog/post_detail.html',
     #                   context={'post': post})
 
-class PostUpdate(ObjectUpdateMixin, View):
+class PostUpdate(LoginRequiredMixin, ObjectUpdateMixin, View):
     model = Post
     model_form = PostForm
     template = 'blog/post_update_form.html'
+    raise_exception = True
 
 
-class PostDelete(ObjectDeleteMixin, View):
+class PostDelete(LoginRequiredMixin, ObjectDeleteMixin, View):
     model = Post
     template = 'blog/post_delete_form.html'
     redirect_url = 'posts_list_url'
+    raise_exception = True
 
 
 
@@ -87,7 +92,7 @@ class TagDetail(ObjectDetailMixin, View):
 #                   context={'tag': tag})
 
 
-class TagCreate(ObjectCreateMixin, View):
+class TagCreate(LoginRequiredMixin, ObjectCreateMixin, View):
     # def get(self, request):
     #     form = TagForm()
     #     return render(request, 'blog/tag_create.html',
@@ -103,12 +108,14 @@ class TagCreate(ObjectCreateMixin, View):
     #                   context={'form': bound_form})
      model_form = TagForm
      template = 'blog/tag_create.html'
+     raise_exception = True
 
-class TagUpdate(ObjectUpdateMixin, View):
+class TagUpdate(LoginRequiredMixin, ObjectUpdateMixin, View):
 
     model = Tag
     model_form = TagForm
     template = 'blog/tag_update_form.html'
+    raise_exception = True
 
     # def get(self, request, slug):
     #     tag = Tag.objects.get(slug__iexact=slug)
@@ -127,7 +134,7 @@ class TagUpdate(ObjectUpdateMixin, View):
     #     context={'form':bound_form, 'tag': tag})
 
 
-class TagDelete(ObjectDeleteMixin, View):
+class TagDelete(LoginRequiredMixin, ObjectDeleteMixin, View):
     model = Tag
     template = 'blog/tag_delete_form.html'
     redirect_url = 'tags_list_url'
