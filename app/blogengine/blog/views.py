@@ -7,6 +7,7 @@ from django.views.generic import View
 from .utils import *
 from django.utils.text import slugify
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator
 
 
 
@@ -14,9 +15,12 @@ def post_list(request):
     # n = 'Oleg'
     # list_names = ['Alex', 'Kostya', 'Yana']
     posts = Post.objects.all()  # получить все посты
+    paginator = Paginator(posts, 2)
+    page_number = request.GET.get('page', 1)
+    page = paginator.get_page(page_number)
 
     return render(request, 'blog/index.html',
-                  context={'posts': posts})
+                  context={'page_object': page})
 
 
 def tags_list(request):
