@@ -8,16 +8,27 @@ from .utils import *
 from django.utils.text import slugify
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
+from django.db.models import Q
 
 
 
 def post_list(request):
     # n = 'Oleg'
     # list_names = ['Alex', 'Kostya', 'Yana']
+    search_query = request.GET.get('search', '')
+
+    if search_query:
+        posts = Post.objects.filter(Q(title__icontains=search_query) |  Q(body__icontains=search_query ))    
+    else:
+        posts = Post.objects.all()
+
     posts = Post.objects.all()  # получить все посты
     paginator = Paginator(posts, 2)
     page_number = request.GET.get('page', 1)
     page = paginator.get_page(page_number)
+
+    
+
 
     return render(request, 'blog/index.html',
                   context={'page_object': page})
